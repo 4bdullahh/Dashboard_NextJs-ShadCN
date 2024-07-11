@@ -24,6 +24,7 @@ import {
   Settings,
   User,
 } from "lucide-react";
+import Link from "next/link";
 
 function MySidebar() {
   const menuList = [
@@ -76,8 +77,12 @@ function MySidebar() {
   return (
     <div className="fixed flex flex-col gap-4 w-[300px] min-w-[300px] p-4 min-h-screen border-r">
       <div>
-        {/* <UserItem /> */}
-        <UserItem title="John Doe" description="johndoe@mail.com" />
+        <UserItem
+          name="John Doe"
+          description="johndoe@mail.com"
+          status={false}
+          onClick={() => console.log("click")}
+        />
       </div>
       <div className="grow">
         <Command style={{ overflow: "visible" }}>
@@ -95,7 +100,12 @@ function MySidebar() {
           </CommandList>
         </Command>
       </div>
-      <div>Settings / Notifications</div>
+      <div>
+        <Link href="/team" className="flex items-center gap-2">
+          <Settings />
+          <span>Team Settings</span>
+        </Link>
+      </div>
     </div>
   );
 }
