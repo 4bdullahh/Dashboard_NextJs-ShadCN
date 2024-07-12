@@ -1,8 +1,9 @@
 "use client";
 import UserItem from "useritem";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Command, CommandInput } from "@/components/ui/command";
+import { Input } from "@/components/ui/input";
 
 type Member = {
   email: string;
@@ -12,7 +13,7 @@ type Member = {
 };
 
 function TeamSettings() {
-  const [members, setMembers] = useState<Member[]>([
+  const members = [
     {
       email: "MrBlack@americas.com",
       full_name: "Bishop Black",
@@ -61,7 +62,20 @@ function TeamSettings() {
       backgroundColor: "#FFA133",
       role: "User",
     },
-  ]);
+  ];
+  const [searchValue, setSearchValue] = useState("");
+  const [filteredMembers, setFilteredMembers] = useState<Member[]>(members);
+
+  useEffect(() => {
+    setFilteredMembers(
+      members.filter(
+        (member) =>
+          member.full_name.toLowerCase().includes(searchValue.toLowerCase()) ||
+          member.email.toLowerCase().includes(searchValue.toLowerCase())
+      )
+    );
+  }, [searchValue, members]);
+
   return (
     <div className="grid gap-4">
       <header>
@@ -70,15 +84,18 @@ function TeamSettings() {
       <div className="grid gap-4">
         <div className="flex items-center justify-between gap-2">
           <Command className="rounded-lg border">
-            <CommandInput
-              placeholder="Type an email..."
+            <Input
               className="border-none"
+              type="text"
+              placeholder="Search for member..."
+              value={searchValue}
+              onChange={(e: any) => setSearchValue(e.target.value)}
             />
           </Command>
           <Button variant={"secondary"}>Add a new member</Button>
         </div>
         <div className="border rounded">
-          {members.map((member: Member, key: number) => (
+          {filteredMembers.map((member: Member, key: number) => (
             <div
               key={key}
               className="border-b last:border-b-0 flex items-center justify-between pr-3"

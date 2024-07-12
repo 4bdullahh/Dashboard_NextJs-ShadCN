@@ -90,11 +90,25 @@ function MySidebar() {
             <CommandEmpty>No results found.</CommandEmpty>
             {menuList.map((menu: any, key: number) => (
               <CommandGroup key={key} heading={menu.group}>
-                {menu.items.map((option: any, optionKey: number) => (
-                  <CommandItem key={optionKey} className="gap-2 cursor-pointer">
-                    {option.icon} {option.text}
-                  </CommandItem>
-                ))}
+                {menu.items.map((option: any, optionKey: number) =>
+                  option.text == "Profile" ? (
+                    <CommandItem
+                      key={optionKey}
+                      className="gap-2 cursor-pointer"
+                    >
+                      <Link href="/" className="flex items-center gap-2">
+                        {option.icon} {option.text}
+                      </Link>
+                    </CommandItem>
+                  ) : (
+                    <CommandItem
+                      key={optionKey}
+                      className="gap-2 cursor-pointer"
+                    >
+                      {option.icon} {option.text}
+                    </CommandItem>
+                  )
+                )}
               </CommandGroup>
             ))}
           </CommandList>
